@@ -123,9 +123,9 @@ class CronController extends Controller
         $data = [
             'name' => $info['title'],
             'url' => $info['auctionUrl'],
-            'tao_token' => $response['data']['taoToken'],
-            'coupon_short_link_ur' => $response['data']['couponShortLinkUrl'],
-            'qr_code_url' => "https:" . $response['data']['qrCodeUrl']
+            'tao_token' => $response['data']['taoToken'] ?? '',
+            'coupon_short_link_ur' => $response['data']['couponShortLinkUrl'] ?? '',
+            'qr_code_url' => "https:" . $response['data']['qrCodeUrl'] ?? ''
         ];
         $productModel->auctionid = $auctionid;
         $productModel->name = strip_tags($data['name']);
@@ -139,7 +139,10 @@ class CronController extends Controller
         $productModel->coupon_info = $info['couponInfo'];
         $productModel->zk_price = $info['zkPrice'];
         $productModel->coupon_tao_token = $response['data']['couponLinkTaoToken'];
+        if (isset($response['data']['couponLinkTaoToken']) && !empty($response['data']['couponLinkTaoToken']) && !empty($data['tao_token'])) {
+            $productModel->save();
+        }
 
-        $productModel->save();
+
     }
 }
