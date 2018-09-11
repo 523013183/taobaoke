@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class CronController extends Controller
 {
-    public $cookie = "t=a66b0e4e515bf5b1ed518f4403b6d790; cookie2=179fd7487c47b82f765ebc35630d8e22; v=0; _tb_token_=38a833b7b73e; cna=LOYKFP0fGAICAXbB8SzmpLvZ; alimamapwag=TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTNfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzY4LjAuMzQ0MC4xMDYgU2FmYXJpLzUzNy4zNg%3D%3D; cookie32=c7eeb52e137a76702b3fbac3252488c0; alimamapw=SRYJBw9cXQhQAA1ROQECVAMOUlJTBlRRUwFUUV5RUwIAAwRaAlJVUAJVAF0E; cookie31=MTc4Nzk0NDEsenNtMTk4OTA2MjUwLDUyMzAxMzE4M0BxcS5jb20sVEI%3D; account-path-guide-s1=true; 17879441_yxjh-filter-1=true; taokeisb2c=; JSESSIONID=4D653D58D43406B096FA4198AC98D7E8; undefined_yxjh-filter-1=true; login=W5iHLLyFOGW7aA%3D%3D; apushb22dcc49aeef15b1b81afbc9c22a6475=%7B%22ts%22%3A1536490128116%2C%22parentId%22%3A1536490073087%7D; isg=BDAwYaYxH6cc3cOxXYxckNRlAfhC0RWlYvHoByqBZwtR5dWP0IjeUSETOa0g9cyb";
+    public $cookie = "t=a66b0e4e515bf5b1ed518f4403b6d790; cookie2=179fd7487c47b82f765ebc35630d8e22; v=0; _tb_token_=38a833b7b73e; cna=LOYKFP0fGAICAXbB8SzmpLvZ; alimamapwag=TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTNfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzY4LjAuMzQ0MC4xMDYgU2FmYXJpLzUzNy4zNg%3D%3D; cookie32=c7eeb52e137a76702b3fbac3252488c0; alimamapw=SRYJBw9cXQhQAA1ROQECVAMOUlJTBlRRUwFUUV5RUwIAAwRaAlJVUAJVAF0E; cookie31=MTc4Nzk0NDEsenNtMTk4OTA2MjUwLDUyMzAxMzE4M0BxcS5jb20sVEI%3D; account-path-guide-s1=true; 17879441_yxjh-filter-1=true; taokeisb2c=; undefined_yxjh-filter-1=true; login=VFC%2FuZ9ayeYq2g%3D%3D; JSESSIONID=BF40C1D169B7677ADF9491F905610B82; isg=BDAwbgCKH6QmRMOxXYxckNRlAfhC0RWlYvHoByqB-gte5dCP0oucU0xTOK0g9cyb";
     public function runTb(Request $request)
     {
         set_time_limit(0);
@@ -30,7 +30,7 @@ class CronController extends Controller
             }
             $list = $data['pageList'];
             foreach ($list as $val) {
-                sleep(rand(1, 5));
+                sleep(1);
                 $this->httpGetContent($val);
             }
         }
@@ -41,7 +41,9 @@ class CronController extends Controller
     public function httpGetList($page, $q)
     {
         $t = microtime(true) * 1000;
+        $q = urlencode($q);
         $url = 'https://pub.alimama.com/items/search.json?toPage='.$page.'&q='.$q.'&dpyhq=1&auctionTag=&perPageSize=50&shopTag=dpyhq&t='.$t.'&_tb_token_=38a833b7b73e';
+//        $url = 'https://pub.alimama.com/items/search.json?q=T%E6%81%A4&_t=1536671661832&toPage=1&dpyhq=1&auctionTag=&perPageSize=50&shopTag=dpyhq&t=1536671753525&_tb_token_=38a833b7b73e&pvid=10_120.41.196.150_5496_1536671753085';
         $cookie = $this->cookie;
 
         $curl = curl_init();
@@ -56,7 +58,8 @@ class CronController extends Controller
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
                 "cache-control: no-cache",
-                "cookie: " . $cookie,
+                "cookie: t=a66b0e4e515bf5b1ed518f4403b6d790; cookie2=179fd7487c47b82f765ebc35630d8e22; v=0; _tb_token_=38a833b7b73e; cna=LOYKFP0fGAICAXbB8SzmpLvZ; alimamapwag=TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTNfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzY4LjAuMzQ0MC4xMDYgU2FmYXJpLzUzNy4zNg%3D%3D; cookie32=c7eeb52e137a76702b3fbac3252488c0; alimamapw=SRYJBw9cXQhQAA1ROQECVAMOUlJTBlRRUwFUUV5RUwIAAwRaAlJVUAJVAF0E; cookie31=MTc4Nzk0NDEsenNtMTk4OTA2MjUwLDUyMzAxMzE4M0BxcS5jb20sVEI%3D; account-path-guide-s1=true; 17879441_yxjh-filter-1=true; taokeisb2c=; JSESSIONID=4D653D58D43406B096FA4198AC98D7E8; undefined_yxjh-filter-1=true; login=V32FPkk%2Fw0dUvg%3D%3D; rurl=aHR0cHM6Ly9wdWIuYWxpbWFtYS5jb20vP3NwbT1hMjMyMC43Mzg4NzgxLmEyMTR0cjguZDAwNi42ZjM3MjAzMGpYdFRIbg%3D%3D; apushb22dcc49aeef15b1b81afbc9c22a6475=%7B%22ts%22%3A1536460774390%2C%22parentId%22%3A1536460522774%7D; isg=BAMDZn1SXP5G2hAYou2_-ROUksFt0JbchaBbLjXkyGLj9DwWvUkLCKmiauQf1O-y",
+                "postman-token: 3aff7fa1-724e-c0eb-1f12-bb94f9092596",
                 "referer: https://pub.alimama.com/promo/search/index.htm?spm=a219t.7900221/1.1998910419.de727cf05.9dce75a5vcKa4y&toPage=1&queryType=2",
                 "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
                 "x-requested-with: XMLHttpRequest"
@@ -66,6 +69,7 @@ class CronController extends Controller
         $response = curl_exec($curl);
         $err = curl_error($curl);
 
+//print_r($response);die;
         curl_close($curl);
 
         if ($err) {
