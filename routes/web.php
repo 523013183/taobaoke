@@ -11,4 +11,8 @@
 |
 */
 
+$router->get("/", function () {
+    echo "hello, world!";die;
+});
+
 $router->get("tb","CronController@runTb");
