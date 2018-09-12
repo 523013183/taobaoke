@@ -30,7 +30,7 @@ class CronController extends Controller
             }
             $list = $data['pageList'];
             foreach ($list as $val) {
-                sleep(1);
+//                sleep(1);
                 $this->httpGetContent($val);
             }
         }
